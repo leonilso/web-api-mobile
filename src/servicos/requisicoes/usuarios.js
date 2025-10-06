@@ -1,9 +1,8 @@
 import api from "../api";
 
-export function buscaUsuario(login){
-    login = "andreocunha"
+export async function buscaUsuario(login){
     try {
-        const resultado = api.get(`/users?login=${login}`);
+        const resultado = await api.get(`/users?login=${login}`);
         return resultado.data[0];
     } catch (error) {
         console.log(error)

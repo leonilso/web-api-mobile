@@ -8,9 +8,15 @@ export default function Principal({ navigation }) {
     const [nomeUsuario, setNomeUsuario] = useState('');
     const [usuario, setUsuario] = useState({});
 
-    function Busca(){
-        const resultado = buscaUsuario();
-        console.log(resultado)
+    async function Busca(){
+        const resultado = await buscaUsuario(nomeUsuario);
+        setNomeUsuario('')
+        if(resultado) {
+            setUsuario(resultado);
+        } else {
+            setUsuario({})
+            Alert.alert("Usuário não encontrado")
+        }
     }
 
     return (
@@ -34,7 +40,7 @@ export default function Principal({ navigation }) {
                             <Text style={estilos.seguidoresTexto}>Seguindo</Text>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('Repositorios')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Repositorios', {id: usuario.id})}>
                         <Text style={estilos.repositorios}>
                             Ver os repositórios
                         </Text>
@@ -47,6 +53,8 @@ export default function Principal({ navigation }) {
                     placeholder="Busque por um usuário"
                     autoCapitalize="none"
                     style={estilos.entrada}
+                    value={nomeUsuario}
+                    onChangeText={setNomeUsuario}
                 />
 
                 <TouchableOpacity style={estilos.botao} 
